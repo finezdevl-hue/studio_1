@@ -1,4 +1,4 @@
-﻿function validateform() {
+function validateform() {
     var alertBox = '';
     if ($('#name').val() == "") {
         $('#name').focus();
@@ -42,7 +42,7 @@ function SendMessage() {
                 // data = JSON object that contact.php returns
                 // we recieve the type of the message: success x danger and apply it to the
 
-                 var messageText = data.message;
+                 var messageText = data;
                 // let's compose Bootstrap alert box HTML
                 var alertBox = '<div  class="bg-success" style="text-align:center;color:black">' + messageText + '</div>';
                 // If we have messageAlert and messageText
@@ -52,17 +52,20 @@ function SendMessage() {
                 
                 $('#contact-form').find('#alert-msg').html(alertBox);
 
+                var whatsappPhone = $('#contact-form').attr('data-whatsapp-phone') || '971505989752';
                 var whatsapptext = "Hi My name is " + $('#name').val() + ". I want to chat with you. ";
                 $('#contact-form')[0].reset();
-                window.open("https://wa.me/+971505989752?text="+whatsapptext.toString(), '_blank');
+                window.open("https://wa.me/" + whatsappPhone + "?text="+whatsapptext.toString(), '_blank');
             },
             error: function (xhr, status) {
                 close_overlay();
                 
                 var alertBox = '<div  class="bg-danger" style="text-align:center;color:white">' + xhr.responseText + '</div>';
-                //var alertBox = '<div class="alert ' + messageAlert + ' alert-dismissible fade show"><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' + xhr.responseText + '</div>';
+                $('#contact-form').find('#alert-msg').html(alertBox);
+                
+                var whatsappPhone = $('#contact-form').attr('data-whatsapp-phone') || '971505989752';
                 var whatsapptext = "Hi My name is " + $('#name').val() + ". I want to chat with you." ;
-                window.open("https://wa.me/+971505989752?text=" + whatsapptext.toString(), '_blank');
+                window.open("https://wa.me/" + whatsappPhone + "?text=" + whatsapptext.toString(), '_blank');
             }
 
         });
